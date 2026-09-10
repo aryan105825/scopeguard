@@ -4,7 +4,7 @@ slack_app/app.py
 Slack Bolt app (slack_bolt) using the Events API.
 
 Listens ONLY in channels/DMs the freelancer has explicitly designated
-as client channels via CLIENT_CHANNEL_MAP below -- not indiscriminately
+as client channels via the dynamic client config -- not indiscriminately
 across every channel the bot happens to belong to.
 
 On each qualifying message:
@@ -35,21 +35,10 @@ from slack_bolt.adapter.socket_mode import SocketModeHandler
 
 from agent.scopeguard_main import handle_incoming_message, record_sent_draft
 from slack_app.blocks import build_review_card, build_ambiguous_ping
-
+from common import client_config
+from dotenv import load_dotenv
+load_dotenv()
 logger = logging.getLogger("scopeguard.slack_app")
-
-# ---------------------------------------------------------------------------
-# Channel -> client_id mapping. Only channels listed here are treated as
-# client channels. Every other channel/DM the bot belongs to is ignored,
-# even if the bot receives a message event for it.
-#
-# In a real deployment this could be loaded from config/DB; for v1 it is
-# a simple explicit map maintained by the freelancer.
-# ---------------------------------------------------------------------------
-CLIENT_CHANNEL_MAP: Dict[str, str] = {
-    # "C0123456789": "acme-retail-co",
-    # "C9876543210": "globex-logistics",
-}
 
 # In-memory store of pending drafts, keyed by the Slack message timestamp
 # of the review card itself, so button handlers can retrieve the full
@@ -68,7 +57,7 @@ def _resolve_client_id(channel_id: str) -> Optional[str]:
     """Return the client_id for a designated client channel, or None if
     this channel is not one the freelancer has configured ScopeGuard
     for."""
-    return CLIENT_CHANNEL_MAP.get(channel_id)
+    return client_config.get_client_id_for_channel(channel_id)
 
 
 @app.event("message")

@@ -1,0 +1,11 @@
+{
+  "clients": {
+    "acme-retail-co": {
+      "slack_channel_id": "C0C0TT8CM0W",
+      "sow_source": {
+        "file_path": "tests/fixtures/sow_acme_website.txt",
+        "type": "file"
+      }
+    }
+  }
+}
