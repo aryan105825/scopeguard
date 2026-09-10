@@ -31,7 +31,7 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 from strands import Agent
-
+from agent.model_config import get_agent_kwargs
 
 class AuditorVerdict(BaseModel):
     """Strict structured output schema for the Auditor Sub-Agent."""
@@ -110,22 +110,12 @@ markdown, no additional fields.
 
 
 def build_auditor_agent() -> Agent:
-    """
-    Construct the Auditor Sub-Agent.
-
-    Model identifier is read from environment/config only (never
-    hardcoded), matching the Supervisor's model configuration.
-    """
-    model_id = os.environ.get("BEDROCK_MODEL_ID")
-    if not model_id:
-        raise RuntimeError("BEDROCK_MODEL_ID is not set in the environment.")
-
+    kwargs = get_agent_kwargs()
     return Agent(
-        model=model_id,
         system_prompt=AUDITOR_SYSTEM_PROMPT,
-        tools=[],  # The Auditor must not call any retrieval tool itself.
+        tools=[],  
+        **kwargs
     )
-
 
 def run_auditor(sow_text: str, client_message: str) -> AuditorVerdict:
     """

@@ -40,7 +40,7 @@ from mcp.client.stdio import stdio_client, StdioServerParameters
 from agent.auditor import run_auditor
 from agent.guardrails import apply_guardrails
 from agent.memory import get_long_term_facts, append_long_term_fact
-
+from agent.model_config import get_agent_kwargs
 try:
     from bedrock_agentcore.runtime import BedrockAgentCoreApp
 except ImportError:  # pragma: no cover
@@ -135,20 +135,12 @@ def run_scope_audit(sow_text: str, client_message: str) -> str:
 
 
 def build_supervisor_agent() -> Agent:
-    """
-    Construct the Supervisor Agent. Model identifier is read from
-    environment/config only -- never hardcoded per-file.
-    """
-    model_id = os.environ.get("BEDROCK_MODEL_ID")
-    if not model_id:
-        raise RuntimeError("BEDROCK_MODEL_ID is not set in the environment.")
-
+    kwargs = get_agent_kwargs()
     return Agent(
-        model=model_id,
         system_prompt=SUPERVISOR_SYSTEM_PROMPT,
         tools=[run_scope_audit],
+        **kwargs
     )
-
 
 # ---------------------------------------------------------------------------
 # Routing -- exact decision table applied after the guardrail verdict.

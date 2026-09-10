@@ -1,5 +1,5 @@
 """
-scopeguard-sow-retriever
+server/mcp_sow_retriever.py
 -------------------------
 Narrow FastMCP server acting as ScopeGuard's enterprise-data boundary.
 
@@ -21,9 +21,14 @@ hardcoded.
 import os
 import re
 import io
-from typing import Dict
-
+import sys
+from pathlib import Path
 from fastmcp import FastMCP
+
+# Allow running this directly while finding the `common` package
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from common import client_config
 
 try:
     from notion_client import Client as NotionClient
@@ -44,22 +49,6 @@ except ImportError:  # pragma: no cover
 
 
 mcp = FastMCP("scopeguard-sow-retriever")
-
-# ---------------------------------------------------------------------------
-# Client -> SOW source configuration map.
-#
-# In a real deployment this map itself might be loaded from a config file
-# or a small database, but the *credentials* used to reach Notion/Drive
-# always come from environment variables, never literals in this file.
-#
-# Each entry is one of:
-#   {"type": "notion", "page_id": "<notion-page-id>"}
-#   {"type": "drive",  "file_id": "<drive-file-id>"}
-# ---------------------------------------------------------------------------
-_CLIENT_SOW_SOURCES: Dict[str, Dict[str, str]] = {
-    # "client-acme": {"type": "notion", "page_id": "abc123..."},
-    # "client-globex": {"type": "drive", "file_id": "1AbCdEfGh..."},
-}
 
 _NOTION_API_KEY_ENV = "NOTION_API_KEY"
 _GOOGLE_CREDS_ENV = "GOOGLE_APPLICATION_CREDENTIALS"
@@ -165,24 +154,41 @@ def _fetch_drive_sow(file_id: str) -> str:
     return _pdf_bytes_to_text(buffer.read())
 
 
+def _fetch_local_file(file_path: str) -> str:
+    """Fetch SOW from a local text file (for zero-cost local sandbox/demo)."""
+    path = Path(file_path)
+    if not path.is_absolute():
+        # Resolve relative to the repository root
+        path = Path(__file__).resolve().parent.parent / file_path
+    if not path.exists():
+        raise RuntimeError(f"Local file not found: {path}")
+    return path.read_text(encoding="utf-8")
+
+
 @mcp.tool()
 def get_active_sow(client_id: str) -> str:
     """
     Retrieve the full, normalized plain-text Statement of Work for the
-    given client_id. Looks up the configured source (Notion page or
-    Drive-hosted PDF), fetches it, and strips formatting artifacts.
+    given client_id. Looks up the configured source (Notion page,
+    Drive-hosted PDF, or local file), fetches it, and strips formatting artifacts.
 
     Returns the complete SOW text in one pass — no chunking, no search.
     """
-    source = _CLIENT_SOW_SOURCES.get(client_id)
+    source = client_config.get_sow_source(client_id)
     if source is None:
-        raise ValueError(f"No active SOW configured for client_id: {client_id!r}")
+        raise ValueError(
+            f"No active SOW configured for client_id: {client_id!r}. Onboard "
+            f"it first, e.g.: python -m common.client_admin add --client-id "
+            f"{client_id} --sow-type file --sow-ref <file-path>"
+        )
 
     source_type = source.get("type")
     if source_type == "notion":
         return _fetch_notion_sow(source["page_id"])
     elif source_type == "drive":
         return _fetch_drive_sow(source["file_id"])
+    elif source_type == "file":
+        return _fetch_local_file(source["file_path"])
     else:
         raise ValueError(
             f"Unknown SOW source type {source_type!r} for client_id: {client_id!r}"
@@ -195,7 +201,7 @@ def list_active_clients() -> list[str]:
     List all client_ids with an active SOW source configured.
     Intended for setup/debugging only.
     """
-    return list(_CLIENT_SOW_SOURCES.keys())
+    return client_config.list_client_ids()
 
 
 if __name__ == "__main__":
