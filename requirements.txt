@@ -1,0 +1,11 @@
+strands-agents>=0.1.0
+strands-agents-tools>=0.1.0
+mcp>=1.0.0
+fastmcp>=0.2.0
+slack_bolt>=1.18.0
+notion-client>=2.2.0
+google-api-python-client>=2.100.0
+google-auth>=2.23.0
+google-auth-oauthlib>=1.1.0
+pypdf>=4.0.0
+rapidfuzz>=3.0.0  # optional: fuzzy citation matching if exact substring match is too strict

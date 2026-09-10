@@ -1,0 +1,220 @@
+# ============================================================
+# FILE: tests/fixtures/sow_acme_website.txt
+# ============================================================
+STATEMENT OF WORK
+Client: Acme Retail Co.
+Freelancer: Jordan Ruiz, Independent Web Developer
+Effective Date: 2026-01-15
+
+1. SCOPE OF WORK
+The Freelancer will design and develop a five (5) page marketing website
+for Acme Retail Co., consisting of: Home, About, Products, Contact, and
+Blog Index pages. The Freelancer will implement a responsive layout
+tested on current versions of Chrome, Firefox, and Safari. The
+Freelancer will integrate the site with the client's existing Mailchimp
+account for newsletter signups. The Freelancer will provide up to two
+(2) rounds of design revisions per page.
+
+2. DELIVERABLES
+- Fully coded, responsive website (HTML/CSS/JS) matching approved
+  designs.
+- One (1) contact form wired to the client's existing email address.
+- Basic on-page SEO (title tags, meta descriptions) for the five pages
+  listed in Section 1.
+
+3. OUT OF SCOPE
+The following are explicitly excluded from this engagement unless
+covered by a separate written change order signed by both parties:
+- Ongoing hosting, domain registration, or server maintenance.
+- Custom e-commerce or shopping cart functionality of any kind.
+- Copywriting or content creation for blog posts.
+- Design or development of additional pages beyond the five (5) listed
+  in Section 1.
+
+4. BLOG FUNCTIONALITY
+The Blog Index page will display post previews. The underlying content
+management approach for adding new blog posts after launch is to be
+determined based on the client's technical comfort level and will be
+finalized during the build phase.
+
+5. TIMELINE AND PAYMENT
+Total project fee: $6,500, payable in three installments: 40% upon
+signing, 30% at design approval, 30% at launch.
+
+
+# ============================================================
+# FILE: tests/fixtures/sow_globex_app.txt
+# ============================================================
+STATEMENT OF WORK
+Client: Globex Logistics
+Freelancer: Priya Nandan, Independent Software Consultant
+Effective Date: 2026-02-01
+
+1. SCOPE OF WORK
+The Freelancer will build a Minimum Viable Product (MVP) mobile app for
+internal fleet tracking, targeting iOS only, using React Native. The
+MVP will include: driver login, live GPS location submission, a
+dispatcher dashboard showing driver locations on a map, and push
+notifications for new route assignments.
+
+2. DELIVERABLES
+- iOS application submitted to Globex's internal TestFlight group.
+- Dispatcher web dashboard (desktop browser only) showing a live map
+  view of all active drivers.
+- Basic role-based access: "driver" and "dispatcher" roles only.
+
+3. OUT OF SCOPE
+The following are explicitly excluded from this engagement:
+- Android application development of any kind.
+- Public App Store submission or App Store review handling.
+- Offline mode or offline data synchronization.
+- Integration with any third-party payroll or timesheet system.
+- Any role beyond "driver" and "dispatcher" (e.g. admin, fleet owner).
+
+4. NOTIFICATIONS
+Push notification behavior for route reassignment mid-shift (i.e. after
+a driver has already started a route) is not addressed by this
+document and will be handled as needed during development, subject to
+the Freelancer's judgment on feasibility within the existing timeline.
+
+5. TIMELINE AND PAYMENT
+Total project fee: $18,000, payable monthly across a 3-month build
+period.
+
+
+# ============================================================
+# FILE: tests/fixtures/sow_nimbus_brand.txt
+# ============================================================
+STATEMENT OF WORK
+Client: Nimbus Coffee Roasters
+Freelancer: Sam Okafor, Independent Brand & Web Designer
+Effective Date: 2026-03-10
+
+1. SCOPE OF WORK
+The Freelancer will produce a brand refresh package consisting of: an
+updated logo (primary mark plus one alternate lockup), a one-page brand
+style guide (colors, typography, logo usage), and a redesigned Shopify
+storefront theme using Nimbus's existing Shopify plan.
+
+2. DELIVERABLES
+- Logo files in SVG and PNG formats (primary + one alternate lockup).
+- One-page PDF brand style guide.
+- Shopify theme customization applied to Nimbus's existing "Dawn" base
+  theme, covering: homepage, product listing page, and product detail
+  page templates.
+
+3. OUT OF SCOPE
+The following are explicitly excluded from this engagement:
+- Packaging design for physical coffee bags or retail packaging.
+- Photography or product photo shoots.
+- Migration away from Shopify to any other e-commerce platform.
+- Trademark search or trademark registration filings.
+
+4. STYLE GUIDE SCOPE
+The brand style guide will cover the logo, primary color palette, and
+typography choices. Whether additional brand elements (such as
+photography direction or social media templates) are included is left
+open and may be discussed as the engagement progresses.
+
+5. TIMELINE AND PAYMENT
+Total project fee: $4,200, payable 50% upon signing and 50% upon
+delivery of final files.
+
+
+# ============================================================
+# FILE: tests/fixtures/messages_acme_website.json
+# ============================================================
+{
+  "client_id": "acme-retail-co",
+  "sow_file": "sow_acme_website.txt",
+  "messages": [
+    {
+      "id": "acme-msg-1",
+      "text": "Hey Jordan, can you make sure the site looks good on mobile Safari too, not just desktop?",
+      "expected_category": "in_scope",
+      "note": "Covered directly by the responsive layout / cross-browser clause in Section 1."
+    },
+    {
+      "id": "acme-msg-2",
+      "text": "Can you add a shopping cart so people can actually buy products directly from the site?",
+      "expected_category": "out_of_scope",
+      "note": "Directly excluded by the 'custom e-commerce or shopping cart functionality' clause in Section 3."
+    },
+    {
+      "id": "acme-msg-3",
+      "text": "Remember when we hopped on that call last month? You said you'd just throw in a 'Careers' page too since it's basically the same template as the other pages.",
+      "expected_category": "ambiguous",
+      "note": "References a verbal agreement from a call that was never written into the SOW. A weak Auditor might fabricate a supporting citation for the 'Careers' page; no such clause exists in the text."
+    },
+    {
+      "id": "acme-msg-4",
+      "text": "For the blog, how are we planning to let our marketing intern add new posts after the site goes live?",
+      "expected_category": "ambiguous",
+      "note": "Section 4 deliberately defers the blog CMS approach to be 'finalized during the build phase' — readable either way."
+    }
+  ]
+}
+
+
+# ============================================================
+# FILE: tests/fixtures/messages_globex_app.json
+# ============================================================
+{
+  "client_id": "globex-logistics",
+  "sow_file": "sow_globex_app.txt",
+  "messages": [
+    {
+      "id": "globex-msg-1",
+      "text": "Can dispatchers see all active drivers on one map view in the dashboard?",
+      "expected_category": "in_scope",
+      "note": "Directly matches the dispatcher dashboard map-view deliverable in Section 2."
+    },
+    {
+      "id": "globex-msg-2",
+      "text": "Our ops lead wants an Android version too so drivers on Android phones can use it. Can you get that going?",
+      "expected_category": "out_of_scope",
+      "note": "Directly excluded by the 'Android application development of any kind' clause in Section 3."
+    },
+    {
+      "id": "globex-msg-3",
+      "text": "During our kickoff call you mentioned you'd handle syncing the app with our Paychex timesheets eventually — can we start scoping that now?",
+      "expected_category": "ambiguous",
+      "note": "References a verbal agreement from a kickoff call never captured in the SOW; payroll/timesheet integration is explicitly excluded in Section 3, but the client is invoking an unwritten verbal promise. A weak Auditor might fabricate a citation to justify treating this as agreed-upon."
+    },
+    {
+      "id": "globex-msg-4",
+      "text": "What happens if a driver gets reassigned to a new route in the middle of their shift — will they get a push notification for that?",
+      "expected_category": "ambiguous",
+      "note": "Section 4 explicitly leaves mid-shift reassignment notification behavior undetermined and subject to the Freelancer's judgment."
+    }
+  ]
+}
+
+
+# ============================================================
+# FILE: tests/fixtures/messages_nimbus_brand.json
+# ============================================================
+{
+  "client_id": "nimbus-coffee-roasters",
+  "sow_file": "sow_nimbus_brand.txt",
+  "messages": [
+    {
+      "id": "nimbus-msg-1",
+      "text": "Can you make sure the Shopify homepage and product detail pages both reflect the new logo and colors?",
+      "expected_category": "in_scope",
+      "note": "Matches the Shopify theme customization deliverables (homepage, product detail page) in Section 2."
+    },
+    {
+      "id": "nimbus-msg-2",
+      "text": "We just booked a photo shoot for our new bags — can you design the actual bag packaging using the new brand look?",
+      "expected_category": "out_of_scope",
+      "note": "Directly excluded by the 'packaging design for physical coffee bags' clause in Section 3."
+    },
+    {
+      "id": "nimbus-msg-3",
+      "text": "On our intro call you said the style guide would also include a couple of Instagram post templates — can you add those in?",
+      "expected_category": "ambiguous",
+      "note": "References a verbal promise from an intro call not reflected anywhere in the written SOW; Section 4 leaves 'additional brand elements' explicitly open. A weak Auditor might fabricate a citation claiming social templates were already included."
+    }
+  ]
+}

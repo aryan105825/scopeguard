@@ -1,0 +1,72 @@
+# =============================================================================
+# ScopeGuard .gitignore
+# =============================================================================
+
+# --- Secrets / environment ---------------------------------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+service-account*.json
+credentials.json
+token.json
+
+# --- Python -------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Testing / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.mypy_cache/
+.ruff_cache/
+
+# --- Node (AgentCore CLI, if installed locally in-repo for tooling) ----------
+node_modules/
+npm-debug.log*
+yarn-error.log*
+package-lock.json
+
+# --- AgentCore / AWS ------------------------------------------------------
+.agentcore/
+.aws-sam/
+*.aws-config
+
+# --- Logs / local run artifacts ------------------------------------------
+*.log
+logs/
+tmp/
+.DS_Store
+Thumbs.db
+
+# --- OpenTelemetry / trace dumps captured locally during dev -----------------
+otel-traces/
+*.trace.json
+
+# --- Editor / IDE -------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- Eval harness scratch output (keep fixtures, ignore run artifacts) -------
+tests/fixtures/*.actual.json
+eval_results/
