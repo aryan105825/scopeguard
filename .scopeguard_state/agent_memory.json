@@ -1,0 +1,22 @@
+{
+  "sessions": {},
+  "facts": {
+    "acme-retail-co": [
+      {
+        "client_id": "acme-retail-co",
+        "fact_type": "declined_offer",
+        "summary": "Pushed back on out-of-scope request: Hey, the client just emailed and wants us to build a fully functional crypto-trading dashboard into the website by Friday.",
+        "date": "2026-09-10",
+        "source_message_id": "1789076288.813169"
+      },
+      {
+        "client_id": "acme-retail-co",
+        "fact_type": "declined_offer",
+        "summary": "Pushed back on out-of-scope request: Hey, the client just emailed and wants us to build a fully functional crypto-trading dashboard into the website by Friday.",
+        "date": "2026-09-10",
+        "source_message_id": "1789076422.954789"
+      }
+    ]
+  },
+  "digest_events": []
+}

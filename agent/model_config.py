@@ -11,17 +11,15 @@ def get_agent_kwargs() -> dict:
     if mode == "local":
         model_name = os.environ.get("LOCAL_MODEL_ID", "llama3")
         
-        # Inject standard OpenAI environment variables so the Strands 
-        # adapter automatically picks them up without throwing kwargs errors.
+        # Inject standard OpenAI environment variables
         os.environ["OPENAI_API_KEY"] = "ollama"
         os.environ["OPENAI_BASE_URL"] = "http://localhost:11434/v1"
         
         from strands.models.openai import OpenAIModel
         
-        # 1. The adapter strictly accepts 'model_id', not 'model'.
-        adapter = OpenAIModel(model_id=model_name)
+        # ADD stream=False here to bypass the Python 3.14 async generator crash
+        adapter = OpenAIModel(model_id=model_name, stream=False)
         
-        # 2. The Agent base class expects the kwarg name to be 'model'.
         return {"model": adapter}
 
     model_id = os.environ.get("BEDROCK_MODEL_ID")
